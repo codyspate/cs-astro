@@ -1,0 +1,21 @@
+---
+
+---
+
+<script>
+  import Game from "../game/game";
+  const canvas = document.getElementById("game") as HTMLCanvasElement;
+  const game = new Game(canvas);
+  await game.load();
+  game.start();
+</script>
+<style>
+  html,
+  body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+  }
+</style>
+
+<canvas id="game" style="background: #000;"></canvas>

@@ -1,11 +1,77 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import Navigation from "../components/Navigation.astro";
+import Layout from "../layouts/Layout.astro";
 
 // Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
 // Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
 ---
 
 <Layout>
-	<Welcome />
+  <Navigation />
+  <main class="mt-12 md:mt-20 pb-48">
+    <div class="w-full flex justify-center">
+      <div class="max-w-prose">
+        <p class="text-justify mb-4">
+          Hi! I'm a software engineer with a passion for crafting innovative
+          solutions, especially in the financial technology space. With over
+          nine years of experience, I've honed my skills in full-stack
+          development, cloud infrastructure, and architectural design,
+          consistently delivering robust and scalable systems that meet
+          real-world needs.
+        </p>
+        <p class="text-justify mb-4">
+          I believe in the power of collaboration and thrive in team
+          environments where knowledge-sharing and mutual support are valued.
+          I'm always eager to mentor and learn from my colleagues, fostering an
+          environment of continuous growth and improvement.
+        </p>
+
+        <p class="text-justify mb-4">
+          I'm a naturally curious problem-solver who enjoys tackling complex
+          challenges and finding creative solutions. I'm confident that my
+          adaptability, technical expertise, and passion for technology can make
+          a significant contribution to your team.
+        </p>
+        <p class="text-justify mb-4">
+          I'm excited to explore how my skills and experience can align with
+          your company's goals. Let's connect and discuss the possibilities!
+        </p>
+        <br />
+        <br />
+        <br />
+        <p class="text-center">
+          ^ That's what the robots told me to say... It's not wrong, but I could
+          never describe myself so elegantly.
+        </p>
+        <br />
+        <p class="text-justify mb-4">
+          Who am I? I'm just a guy that really enjoys building things and
+          solving problems. Every so often I rebuild this website, just to try
+          new things. This time it's built using Astro. Some of the tools I
+          experiment with never turn out to be worth while, but I find that
+          exploring new tech keeps me brain working and willing to absorb new
+          ideas.
+        </p>
+        <p class="text-justify mb-4">
+          I find that being a technical explorer has made me very adaptable when
+          starting a new job or side project. I'm always willing to learn new
+          things and I'm not afraid to ask questions. I've found that the best
+          way to learn is to teach, so I'm always willing to help others learn
+          as well.
+        </p>
+        <p class="text-justify mb-4">
+          I'm also big fan of working with other tech minded folks. If you know
+          any that would like to chat, send them my way! I'm always happy to
+          connect and leave the door open to cool side projects or professional
+          opportunities.
+        </p>
+        <p class="text-justify mb-4">
+          When I'm not doing tech things, I also play games casually (board,
+          D&D, and PC). Very rarely, I will make some music. I try to get
+          outdoors as much as comfortable, and I spend a lot of time with my
+          family.
+        </p>
+      </div>
+    </div>
+  </main>
 </Layout>
