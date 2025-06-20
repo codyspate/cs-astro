@@ -1,4 +1,3 @@
-import { describe, test } from "vitest";
 // import { _generateObjects } from "./generate-object-data";
 
 // describe("generateSpaceObjects", () => {

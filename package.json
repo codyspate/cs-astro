@@ -1,28 +1,30 @@
 {
-	"name": "space",
-	"type": "module",
-	"version": "0.0.1",
-	"scripts": {
-		"dev": "astro dev",
-		"build": "astro build",
-		"preview": "astro preview",
-		"astro": "astro",
-		"test": "vitest",
-		"check": "biome check",
-		"fix": "biome check --fix"
-	},
-	"dependencies": {
-		"@astrojs/db": "^0.14.6",
-		"@astrojs/netlify": "^6.2.2",
-		"@tailwindcss/vite": "^4.0.11",
-		"astro": "^5.3.1",
-		"tailwindcss": "^4.0.11"
-	},
-	"devDependencies": {
-		"@biomejs/biome": "1.9.4",
-		"prettier": "^3.5.3",
-		"prettier-plugin-astro": "^0.14.1",
-		"vitest": "^3.0.7"
-	},
-	"packageManager": "pnpm@9.12.3+sha512.cce0f9de9c5a7c95bef944169cc5dfe8741abfb145078c0d508b868056848a87c81e626246cb60967cbd7fd29a6c062ef73ff840d96b3c86c40ac92cf4a813ee"
+  "name": "space",
+  "type": "module",
+  "version": "0.0.1",
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "astro": "astro",
+    "test": "vitest",
+    "check": "biome check",
+    "fix": "biome check --write"
+  },
+  "dependencies": {
+    "@astrojs/cloudflare": "^12.6.0",
+    "@astrojs/db": "^0.15.0",
+    "@astrojs/netlify": "^6.4.0",
+    "@tailwindcss/vite": "^4.0.11",
+    "astro": "^5.10.0",
+    "tailwindcss": "^4.0.11"
+  },
+  "devDependencies": {
+    "@biomejs/biome": "2.0.0",
+    "prettier": "^3.5.3",
+    "prettier-plugin-astro": "^0.14.1",
+    "vitest": "^3.0.7",
+    "wrangler": "^4.20.5"
+  },
+  "packageManager": "pnpm@9.15.9+sha512.68046141893c66fad01c079231128e9afb89ef87e2691d69e4d40eee228988295fd4682181bae55b58418c3a253bde65a505ec7c5f9403ece5cc3cd37dcf2531"
 }
