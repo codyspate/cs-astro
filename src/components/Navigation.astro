@@ -118,8 +118,8 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
     #game-link::before {
       content: "";
       position: absolute;
-      top: 50%;
-      left: 50%;
+      top: 3%;
+      left: 3%;
       width: 0;
       height: 0;
       background-image: radial-gradient(
@@ -132,16 +132,16 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
         100% 100%,
         15px 15px;
       background-repeat: no-repeat, repeat;
-      border-radius: 50%;
+      border-radius: 43% 60% 62% 100%;
       opacity: 0;
-      transform: translate(-50%, -50%) rotate(0deg);
+      transform: translate(-30%, -3%) rotate(0deg);
       z-index: -1;
       transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
       pointer-events: none;
     }
 
     #game-link:hover {
-      transform: scale(2) translateY(20%);
+      transform: scale(2.1) translateY(20%);
       color: #e73879;
       &::before {
         width: 540px;
