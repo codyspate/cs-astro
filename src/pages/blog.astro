@@ -1,6 +1,9 @@
 ---
+import { getCollection } from "astro:content";
 import Navigation from "../components/Navigation.astro";
 import Layout from "../layouts/Layout.astro";
+
+const blogPosts = await getCollection("blog");
 ---
 
 <Layout title="Blog">
@@ -9,11 +12,43 @@ import Layout from "../layouts/Layout.astro";
     <div class="w-full flex justify-center">
       <div class="max-w-prose">
         <h1 class="text-2xl uppercase font-thin mb-4">Blog</h1>
-        <p class="text-justify mb-4">
-          There will come a time when blogs posts are here. That time is not
-          now, but rest assured, blogging is coming.
-        </p>
+        {
+          blogPosts.map((post) => (
+            <div class="p-2 blog-post-list-card">
+              <a href={`/blog/${post.id}`}>
+                <h2 class={`text-xl pb-1`}>{post.data.title}</h2>
+                <p class="ml-2">{post.data.snippet}</p>
+              </a>
+            </div>
+          ))
+        }
       </div>
     </div>
   </main>
 </Layout>
+
+<style>
+  .blog-post-list-card {
+    transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+    cursor: pointer;
+    border-radius: 4px;
+    background: rgba(0, 0, 0, 0);
+  }
+
+  .blog-post-list-card:hover {
+    /* box-shadow:
+      0 20px 40px rgba(0, 0, 0, 0.15),
+      0 8px 16px rgba(0, 0, 0, 0.1),
+      0 0 0 1px rgba(255, 255, 255, 0.1); */
+    transform: translateY(2px);
+    background-color: rgba(0, 0, 0, 0.02);
+    backdrop-filter: blur(8px);
+    /* background: rgba(255, 255, 255, 0.05); */
+    h2 {
+      color: var(--color-persian-blue-500);
+      @media (prefers-color-scheme: dark) {
+        color: var(--color-persian-blue-400);
+      }
+    }
+  }
+</style>

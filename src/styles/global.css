@@ -1,4 +1,5 @@
 @import "tailwindcss";
+@plugin "@tailwindcss/typography";
 
 @font-face {
   font-family: "DejaVu Sans Mono";
@@ -30,4 +31,54 @@
   font-weight: bold;
   font-style: italic;
   font-display: swap;
+}
+
+@theme {
+  --color-tangerine-50: #fff8ed;
+  --color-tangerine-100: #fff0d5;
+  --color-tangerine-200: #fedcaa;
+  --color-tangerine-300: #fdc374;
+  --color-tangerine-400: #fa9e3d;
+  --color-tangerine-500: #f88117;
+  --color-tangerine-600: #f26b0f;
+  --color-tangerine-700: #c14c0d;
+  --color-tangerine-800: #9a3d12;
+  --color-tangerine-900: #7c3412;
+  --color-tangerine-950: #431807;
+
+  --color-grape-50: #fcf4ff;
+  --color-grape-100: #f8e8ff;
+  --color-grape-200: #f1d0fe;
+  --color-grape-300: #eaaafd;
+  --color-grape-400: #df78fa;
+  --color-grape-500: #cc44f1;
+  --color-grape-600: #b324d5;
+  --color-grape-700: #971bb0;
+  --color-grape-800: #7e1891;
+  --color-grape-900: #691976;
+  --color-grape-950: #45034f;
+
+  --color-cabaret-50: #fdf2f7;
+  --color-cabaret-100: #fce7f0;
+  --color-cabaret-200: #fad0e3;
+  --color-cabaret-300: #f8a9ca;
+  --color-cabaret-400: #f274a7;
+  --color-cabaret-500: #e73879;
+  --color-cabaret-600: #d82a62;
+  --color-cabaret-700: #bb1b49;
+  --color-cabaret-800: #9b193d;
+  --color-cabaret-900: #811a36;
+  --color-cabaret-950: #4f081b;
+
+  --color-persian-blue-50: #edf2ff;
+  --color-persian-blue-100: #dee8ff;
+  --color-persian-blue-200: #c3d4ff;
+  --color-persian-blue-300: #9fb7ff;
+  --color-persian-blue-400: #798fff;
+  --color-persian-blue-500: #5969fb;
+  --color-persian-blue-600: #3f42f0;
+  --color-persian-blue-700: #2f2ed4;
+  --color-persian-blue-800: #282aab;
+  --color-persian-blue-900: #282b87;
+  --color-persian-blue-950: #18194e;
 }

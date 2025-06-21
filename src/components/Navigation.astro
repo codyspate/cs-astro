@@ -1,10 +1,11 @@
 ---
+import EmailSymbol from "./EmailSymbol.astro";
 import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
 ---
 
 <div
   id="top-nav-bar"
-  class="px-6 py-3 hidden md:flex fixed justify-between items-center w-full top-0 left-0"
+  class="bg-neutral-100 dark:bg-neutral-800 shadow-lg shadow-neutral-100 dark:shadow-neutral-800 px-6 py-3 hidden md:flex fixed justify-between items-center w-full top-0 left-0"
 >
   <a href="/" class="uppercase mr-6">Cody Spate</a>
 
@@ -32,7 +33,9 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
     >
   </div>
 </div>
-<div class="flex md:hidden justify-between items-center">
+<div
+  class="bg-neutral-100 dark:bg-neutral-800 flex md:hidden justify-between items-center sticky top-0"
+>
   <a href="/" class="uppercase">Cody Spate</a>
   <div class="hamburger-menu">
     <button aria-label="Open menu" id="menu-toggle" class="p-2">
@@ -46,14 +49,16 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
         stroke-linecap="round"
         stroke-linejoin="round"
       >
-        <line x1="3" y1="12" x2="21" y2="12"></line>
-        <line x1="3" y1="6" x2="21" y2="6"></line>
-        <line x1="3" y1="18" x2="21" y2="18"></line>
+        <line class="stroke-tangerine-500" x1="3" y1="12" x2="21" y2="12"
+        ></line>
+        <line class="stroke-persian-blue-500" x1="3" y1="6" x2="21" y2="6"
+        ></line>
+        <line class="stroke-grape-500" x1="3" y1="18" x2="21" y2="18"></line>
       </svg>
     </button>
     <div
       id="mobile-menu"
-      class="hidden absolute top-14 right-0 bg-neutral-100 shadow-lg py-4 w-full z-20"
+      class="hidden absolute top-10 right-0 bg-neutral-100 dark:bg-neutral-800 shadow-lg py-4 w-full z-20"
     >
       <div class="flex flex-col space-y-5 items-end px-8">
         <a class="nav-link
@@ -61,93 +66,111 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
         <a class="nav-link uppercase" href="/blog">Blog</a>
         <a
           class="nav-link uppercase flex items-center"
-          href="https://github.com/codyspate">Github <ExternalLinkSymbol /></a
+          href="https://github.com/codyspate"
+          ><span class="mr-1">Github</span> <ExternalLinkSymbol /></a
         >
         <a
           class="nav-link uppercase flex items-center"
           href="https://www.linkedin.com/in/cody-spate"
-          >LinkedIn <ExternalLinkSymbol /></a
+          ><span class="mr-1">LinkedIn</span> <ExternalLinkSymbol /></a
         >
-        <a id="nav-email" class="uppercase" href="mailto:me@codyspate.dev"
-          >me@codyspate.dev</a
+        <a
+          id="nav-email"
+          class="uppercase flex items-center"
+          href="mailto:me@codyspate.dev"
+          ><span class="mr-1">me@codyspate.dev</span> <EmailSymbol /></a
         >
       </div>
     </div>
   </div>
-
-  <script>
-    document
-      .getElementById("menu-toggle")
-      ?.addEventListener("click", function () {
-        document.getElementById("mobile-menu")?.classList.toggle("hidden");
-      });
-  </script>
-
-  <style>
-    * {
-      font-size: 0.9rem;
-    }
-    .nav-link:hover {
-      color: #f26b0f;
-    }
-
-    #top-nav-bar {
-      background-color: var(--color-neutral-100);
-      box-shadow: 0 0 5px 10px var(--color-neutral-100);
-    }
-    #nav-email:hover {
-      #nav-email-at {
-        color: #7e1891;
-      }
-      #nav-email-name {
-        color: #f26b0f;
-      }
-      #nav-email-tld {
-        color: #7e1891;
-      }
-      #nav-email-domain {
-        color: #e73879;
-      }
-    }
-
-    #game-link {
-      position: relative;
-      transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-    }
-
-    #game-link::before {
-      content: "";
-      position: absolute;
-      top: 3%;
-      left: 3%;
-      width: 0;
-      height: 0;
-      background-image: radial-gradient(
-        circle,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.92) 70%
-      );
-      /* background: black; */
-      background-size:
-        100% 100%,
-        15px 15px;
-      background-repeat: no-repeat, repeat;
-      border-radius: 43% 60% 62% 100%;
-      opacity: 0;
-      transform: translate(-30%, -3%) rotate(0deg);
-      z-index: -1;
-      transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
-      pointer-events: none;
-    }
-
-    #game-link:hover {
-      transform: scale(2.1) translateY(20%);
-      color: #e73879;
-      &::before {
-        width: 540px;
-        height: 540px;
-        opacity: 1;
-      }
-    }
-  </style>
 </div>
+
+<script>
+  document
+    .getElementById("menu-toggle")
+    ?.addEventListener("click", function () {
+      document.getElementById("mobile-menu")?.classList.toggle("hidden");
+    });
+</script>
+
+<style>
+  * {
+    font-size: 0.9rem;
+  }
+  .nav-link:hover {
+    color: var(--color-tangerine-500);
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-tangerine-400);
+    }
+  }
+
+  #nav-email:hover {
+    #nav-email-at {
+      color: var(--color-grape-500);
+      @media (prefers-color-scheme: dark) {
+        color: var(--color-grape-300);
+      }
+    }
+    #nav-email-name {
+      color: var(--color-tangerine-500);
+      @media (prefers-color-scheme: dark) {
+        color: var(--color-tangerine-400);
+      }
+    }
+    #nav-email-tld {
+      color: var(--color-grape-500);
+      @media (prefers-color-scheme: dark) {
+        color: var(--color-grape-300);
+      }
+    }
+    #nav-email-domain {
+      color: var(--color-persian-blue-500);
+      @media (prefers-color-scheme: dark) {
+        color: var(--color-persian-blue-300);
+      }
+    }
+  }
+
+  #game-link {
+    position: relative;
+    transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+  }
+
+  #game-link::before {
+    content: "";
+    position: absolute;
+    top: 3%;
+    left: 3%;
+    width: 0;
+    height: 0;
+    background-image: linear-gradient(
+      to bottom right,
+      rgba(0, 0, 0, 1) 0%,
+      rgba(0, 0, 0, 0.6) 100%
+    );
+    /* background: black; */
+    background-size:
+      200% 200%,
+      15px 15px;
+    background-repeat: no-repeat, repeat;
+    border-radius: 43% 60% 62% 100%;
+    opacity: 0;
+    transform: translate(-30%, -3%) rotate(0deg);
+    z-index: -1;
+    transition: all 0.4s cubic-bezier(0.075, 0.82, 0.165, 1);
+    pointer-events: none;
+  }
+
+  #game-link:hover {
+    transform: scale(2.1) translateY(20%);
+    color: var(--color-persian-blue-500);
+    @media (prefers-color-scheme: dark) {
+      color: var(--color-persian-blue-400);
+    }
+    &::before {
+      width: 100dvw;
+      height: 100dvh;
+      opacity: 1;
+    }
+  }
+</style>
