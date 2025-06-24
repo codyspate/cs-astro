@@ -13,6 +13,9 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
     <a class="nav-link uppercase" href="/">Home</a>
     <a class="nav-link uppercase" href="/blog">Blog</a>
     <a id="game-link" class="nav-link uppercase" href="/game">Space</a>
+    <a id="other-link" href="/other" class="nav-link uppercase"
+      >Oth<span id="other-e">e</span>r</a
+    >
   </div>
   <div class="grow"></div>
   <div class="flex space-x-4">
@@ -102,6 +105,21 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
     @media (prefers-color-scheme: dark) {
       color: var(--color-tangerine-400);
     }
+  }
+
+  @keyframes spin-fun-in {
+    from {
+      transform: rotate(0deg);
+    }
+    to {
+      transform: rotate(180deg);
+    }
+  }
+
+  #other-link:hover #other-e {
+    display: inline-block;
+    color: var(--color-persian-blue-400);
+    animation: spin-fun-in 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
   }
 
   #nav-email:hover {
