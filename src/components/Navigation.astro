@@ -28,7 +28,7 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
   <div class="ml-6">
     <a
       id="nav-email"
-      class="uppercase border rounded-full px-4 py-2 transition-shadow shadow-lg hover:shadow-none"
+      class="uppercase rounded-full px-4 py-2 transition-shadow"
       href="mailto:me@codyspate.dev"
       ><span id="nav-email-name">me</span><span id="nav-email-at">@</span><span
         id="nav-email-domain">codyspate</span
@@ -122,7 +122,24 @@ import ExternalLinkSymbol from "./ExternalLinkSymbol.astro";
     animation: spin-fun-in 0.8s cubic-bezier(0.68, -0.55, 0.27, 1.55) forwards;
   }
 
+  #nav-email {
+    box-shadow:
+      0 6px 8px 0 rgba(0, 0, 0, 0.05),
+      inset 0 -6px 8px 0 rgba(0, 0, 0, 0.05),
+      0 -6px 8px 0 #fff,
+      inset 0 6px 8px 0 #fff;
+
+    @media (prefers-color-scheme: dark) {
+      box-shadow:
+        0 6px 8px 0 rgba(0, 0, 0, 0.2),
+        inset 0 -6px 8px 0 rgba(0, 0, 0, 0.2),
+        0 -6px 8px 0 var(--color-neutral-700),
+        inset 0 6px 8px 0 var(--color-neutral-700);
+    }
+  }
+
   #nav-email:hover {
+    box-shadow: none;
     #nav-email-at {
       color: var(--color-grape-500);
       @media (prefers-color-scheme: dark) {

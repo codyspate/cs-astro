@@ -1,0 +1,75 @@
+---
+import { actions } from "astro:actions";
+import Navigation from "../components/Navigation.astro";
+import Layout from "../layouts/Layout.astro";
+
+const result = Astro.getActionResult(actions.askQuestion);
+if (result && !result.error) {
+  return Astro.redirect("/questions");
+}
+
+type AnsweredQuestion = {
+  id: number;
+  question: string;
+  timestamp: string;
+  answer: string;
+  answered_at: string;
+};
+
+const answeredQuestionsResponse = await fetch(
+  "https://dev-site-backend.codyspate.workers.dev/questions"
+);
+const answeredQuestions =
+  (await answeredQuestionsResponse.json()) as AnsweredQuestion[];
+---
+
+<Layout>
+  <Navigation />
+  <main class="mt-12 md:mt-20 pb-48">
+    <div class="w-full flex justify-center">
+      <div class="max-w-prose prose dark:prose-invert">
+        <h1 class="text-2xl uppercase font-thin mb-4">Ask a question</h1>
+        <div>
+          <form
+            method="POST"
+            action={actions.askQuestion}
+            class="flex flex-col gap-1"
+          >
+            <textarea
+              id="question"
+              name="question"
+              rows="1"
+              class="border border-gray-400 p-2 rounded w-full"
+              required></textarea>
+            <div class="self-end">
+              <button
+                id="ask-question"
+                type="submit"
+                class="bg-blue-500 text-white px-2 rounded"
+              >
+                Ask
+              </button>
+            </div>
+          </form>
+        </div>
+        <div class="mt-10">
+          {
+            Array.isArray(answeredQuestions)
+              ? answeredQuestions.map((question) => (
+                  <div class="pb-4">
+                    <p class="text-sm text-gray-400 mb-1 pb-0">
+                      {new Date(question.answered_at).toLocaleString()}
+                    </p>
+                    <h2 class="mt-1 mb-1.5 font-medium">{question.question}</h2>
+                    <p class="text-md text-gray-500 dark:text-gray-300">
+                      {question.answer}
+                    </p>
+                  </div>
+                ))
+              : ""
+          }
+        </div>
+      </div>
+    </div>
+  </main>
+</Layout>
