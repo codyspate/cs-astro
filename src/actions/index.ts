@@ -6,7 +6,7 @@ export const server = {
         accept: "form",
         input: z.object({ question: z.string().min(1) }),
         handler: async (input) => {
-            const result = await fetch("http://localhost:8787/questions", {
+            const result = await fetch("https://dev-site-backend.codyspate.workers.dev/questions", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
