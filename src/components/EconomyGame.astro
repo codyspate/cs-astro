@@ -1,0 +1,387 @@
+---
+// This is the component's front matter.
+// We don't have any server-side logic for this component,
+// so it's empty. All game logic is handled on the client.
+---
+
+<style>
+  .resource-card,
+  .building-card,
+  .market-card,
+  .log-card {
+    background-color: #2d3748;
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    box-shadow:
+      0 4px 6px -1px rgba(0, 0, 0, 0.1),
+      0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  }
+  .btn {
+    transition: all 0.2s ease-in-out;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .btn-buy {
+    background-color: #48bb78;
+    color: #fff;
+  }
+  .btn-buy:hover {
+    background-color: #38a169;
+  }
+  .btn-sell {
+    background-color: #f56565;
+    color: #fff;
+  }
+  .btn-sell:hover {
+    background-color: #e53e3e;
+  }
+  .btn-build {
+    background-color: #4299e1;
+    color: #fff;
+  }
+  .btn-build:hover {
+    background-color: #3182ce;
+  }
+  #log-messages {
+    height: 150px;
+    overflow-y: auto;
+    background-color: #1a202c;
+    border: 1px solid #4a5568;
+  }
+</style>
+
+<div class="game-container p-4 md:p-8">
+  <header class="text-center mb-8">
+    <h1 class="text-4xl font-bold">Economy Simulator</h1>
+  </header>
+
+  <main
+    class="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+  >
+    <!-- Resources Section -->
+    <div class="resource-card md:col-span-1 lg:col-span-1">
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        Your Resources
+      </h2>
+      <div class="space-y-3">
+        <p><strong>Money:</strong> $<span id="money">1000</span></p>
+        <p><strong>Wood:</strong> <span id="wood">10</span></p>
+        <p><strong>Stone:</strong> <span id="stone">5</span></p>
+        <p><strong>Food:</strong> <span id="food">20</span></p>
+      </div>
+    </div>
+
+    <!-- Buildings Section -->
+    <div class="building-card md:col-span-1 lg:col-span-1">
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        Buildings
+      </h2>
+      <div id="buildings-list" class="space-y-4">
+        <!-- Building templates will be cloned here -->
+      </div>
+      <div id="build-options" class="mt-4 space-y-2">
+        <button
+          id="build-lumber-mill"
+          class="btn btn-build w-full py-2 px-4 rounded-md"
+          ><pre>Build Lumber Mill
+(Cost: 100 Wood, 50 Stone)</pre></button
+        >
+        <button
+          id="build-quarry"
+          class="btn btn-build w-full py-2 px-4 rounded-md"
+          ><pre>Build Quarry
+(Cost: 150 Wood, 100 Stone)</pre></button
+        >
+        <button
+          id="build-farm"
+          class="btn btn-build w-full py-2 px-4 rounded-md"
+          ><pre>Build Farm
+(Cost: 50 Wood, 20 Stone)</pre></button
+        >
+      </div>
+    </div>
+
+    <!-- Market Section -->
+    <div class="market-card md:col-span-2 lg:col-span-1">
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        Market
+      </h2>
+      <div class="space-y-4">
+        <div>
+          <h3 class="font-semibold">Wood</h3>
+          <p>Price: $<span id="wood-price">10</span></p>
+          <div class="flex space-x-2 mt-2">
+            <button
+              id="buy-wood"
+              class="btn btn-buy flex-1 py-2 px-4 rounded-md">Buy</button
+            >
+            <button
+              id="sell-wood"
+              class="btn btn-sell flex-1 py-2 px-4 rounded-md">Sell</button
+            >
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold">Stone</h3>
+          <p>Price: $<span id="stone-price">20</span></p>
+          <div class="flex space-x-2 mt-2">
+            <button
+              id="buy-stone"
+              class="btn btn-buy flex-1 py-2 px-4 rounded-md">Buy</button
+            >
+            <button
+              id="sell-stone"
+              class="btn btn-sell flex-1 py-2 px-4 rounded-md">Sell</button
+            >
+          </div>
+        </div>
+        <div>
+          <h3 class="font-semibold">Food</h3>
+          <p>Price: $<span id="food-price">5</span></p>
+          <div class="flex space-x-2 mt-2">
+            <button
+              id="buy-food"
+              class="btn btn-buy flex-1 py-2 px-4 rounded-md">Buy</button
+            >
+            <button
+              id="sell-food"
+              class="btn btn-sell flex-1 py-2 px-4 rounded-md">Sell</button
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Log Section -->
+    <div class="log-card md:col-span-2 lg:col-span-3">
+      <h2 class="text-2xl font-semibold mb-4 border-b border-gray-600 pb-2">
+        Activity Log
+      </h2>
+      <div id="log-messages" class="p-2 rounded-md">
+        <!-- Log messages will appear here -->
+      </div>
+    </div>
+  </main>
+</div>
+
+<script is:inline>
+  // --- GAME STATE ---
+  const STORAGE_KEY = "economy-sim-state";
+  const LOG_KEY = "economy-sim-log";
+  function saveGameState() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(gameState));
+    localStorage.setItem(LOG_KEY, JSON.stringify(logMessages));
+  }
+  function loadGameState() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (data) {
+      const parsed = JSON.parse(data);
+      Object.assign(gameState, parsed);
+    }
+    const logData = localStorage.getItem(LOG_KEY);
+    if (logData) {
+      logMessages = JSON.parse(logData);
+    }
+  }
+
+  let logMessages = [];
+
+  const gameState = {
+    money: 1000,
+    resources: {
+      wood: 10,
+      stone: 5,
+      food: 20,
+    },
+    buildings: [],
+    marketPrices: {
+      wood: 10,
+      stone: 20,
+      food: 5,
+    },
+  };
+
+  const buildingSpecs = {
+    "Lumber Mill": {
+      cost: { money: 100, wood: 50, stone: 0 },
+      production: { resource: "wood", amount: 5 },
+    },
+    Quarry: {
+      cost: { money: 150, wood: 20, stone: 50 },
+      production: { resource: "stone", amount: 3 },
+    },
+    Farm: {
+      cost: { money: 50, wood: 10, stone: 10 },
+      production: { resource: "food", amount: 10 },
+    },
+  };
+
+  // --- UI UPDATE FUNCTIONS ---
+  function updateUI() {
+    document.getElementById("money").textContent = gameState.money;
+    document.getElementById("wood").textContent = gameState.resources.wood;
+    document.getElementById("stone").textContent = gameState.resources.stone;
+    document.getElementById("food").textContent = gameState.resources.food;
+
+    document.getElementById("wood-price").textContent =
+      gameState.marketPrices.wood;
+    document.getElementById("stone-price").textContent =
+      gameState.marketPrices.stone;
+    document.getElementById("food-price").textContent =
+      gameState.marketPrices.food;
+
+    const buildingsList = document.getElementById("buildings-list");
+    buildingsList.innerHTML = "";
+    const buildingCounts = gameState.buildings.reduce((acc, b) => {
+      acc[b] = (acc[b] || 0) + 1;
+      return acc;
+    }, {});
+
+    for (const building in buildingCounts) {
+      const buildingEl = document.createElement("div");
+      buildingEl.className =
+        "flex justify-between items-center bg-gray-700 p-2 rounded";
+      buildingEl.innerHTML = `<span>${building} (x${buildingCounts[building]})</span> <span>+${buildingSpecs[building].production.amount} ${buildingSpecs[building].production.resource}/cycle</span>`;
+      buildingsList.appendChild(buildingEl);
+    }
+
+    // Render log
+    const logBox = document.getElementById("log-messages");
+    logBox.innerHTML = "";
+    for (const entry of logMessages) {
+      const p = document.createElement("p");
+      p.textContent = entry.text;
+      if (entry.type === "error") p.style.color = "#f56565";
+      if (entry.type === "success") p.style.color = "#48bb78";
+      logBox.appendChild(p);
+    }
+    logBox.scrollTop = logBox.scrollHeight;
+    saveGameState();
+  }
+
+  function logMessage(message, type = "info") {
+    const entry = {
+      text: `[${new Date().toLocaleTimeString()}] ${message}`,
+      type,
+    };
+    logMessages.push(entry);
+    updateUI();
+  }
+
+  // --- GAME LOGIC ---
+  function buyResource(resource) {
+    const price = gameState.marketPrices[resource];
+    if (gameState.money >= price) {
+      gameState.money -= price;
+      gameState.resources[resource]++;
+      logMessage(`Bought 1 ${resource} for $${price}.`, "success");
+      updateUI();
+    } else {
+      logMessage("Not enough money!", "error");
+    }
+  }
+
+  function sellResource(resource) {
+    if (gameState.resources[resource] > 0) {
+      const price = gameState.marketPrices[resource];
+      gameState.money += price;
+      gameState.resources[resource]--;
+      logMessage(`Sold 1 ${resource} for $${price}.`, "success");
+      updateUI();
+    } else {
+      logMessage(`Not enough ${resource} to sell!`, "error");
+    }
+  }
+
+  function buildBuilding(buildingType) {
+    const spec = buildingSpecs[buildingType];
+    if (
+      gameState.money >= spec.cost.money &&
+      gameState.resources.wood >= spec.cost.wood &&
+      gameState.resources.stone >= spec.cost.stone
+    ) {
+      gameState.money -= spec.cost.money;
+      gameState.resources.wood -= spec.cost.wood;
+      gameState.resources.stone -= spec.cost.stone;
+      gameState.buildings.push(buildingType);
+      logMessage(`Constructed a ${buildingType}!`, "success");
+      updateUI();
+    } else {
+      logMessage(`Not enough resources to build a ${buildingType}.`, "error");
+    }
+  }
+
+  function runProductionCycle() {
+    if (gameState.buildings.length === 0) return;
+    gameState.buildings.forEach((buildingType) => {
+      const spec = buildingSpecs[buildingType];
+      if (spec) {
+        gameState.resources[spec.production.resource] += spec.production.amount;
+      }
+    });
+    logMessage("Production cycle complete.");
+    updateUI();
+  }
+
+  function fluctuateMarket() {
+    for (const resource in gameState.marketPrices) {
+      const change = (Math.random() - 0.5) * 2; // -1 to +1
+      gameState.marketPrices[resource] = Math.max(
+        1,
+        Math.round(gameState.marketPrices[resource] + change)
+      );
+    }
+    logMessage("Market prices have fluctuated.");
+    updateUI();
+  }
+
+  // --- INITIALIZATION and EVENT LISTENERS ---
+  document.addEventListener("DOMContentLoaded", () => {
+    const hadSave = !!localStorage.getItem(STORAGE_KEY);
+    loadGameState();
+    // Initial UI render
+    updateUI();
+    if (hadSave) {
+      logMessage(
+        "Welcome back to Economy Simulator! Your progress has been loaded."
+      );
+    } else {
+      logMessage("Welcome to Economy Simulator!");
+    }
+
+    // Setup event listeners
+    document
+      .getElementById("buy-wood")
+      .addEventListener("click", () => buyResource("wood"));
+    document
+      .getElementById("sell-wood")
+      .addEventListener("click", () => sellResource("wood"));
+    document
+      .getElementById("buy-stone")
+      .addEventListener("click", () => buyResource("stone"));
+    document
+      .getElementById("sell-stone")
+      .addEventListener("click", () => sellResource("stone"));
+    document
+      .getElementById("buy-food")
+      .addEventListener("click", () => buyResource("food"));
+    document
+      .getElementById("sell-food")
+      .addEventListener("click", () => sellResource("food"));
+
+    document
+      .getElementById("build-lumber-mill")
+      .addEventListener("click", () => buildBuilding("Lumber Mill"));
+    document
+      .getElementById("build-quarry")
+      .addEventListener("click", () => buildBuilding("Quarry"));
+    document
+      .getElementById("build-farm")
+      .addEventListener("click", () => buildBuilding("Farm"));
+
+    // Start game loops
+    setInterval(runProductionCycle, 10000); // Production every 10 seconds
+    setInterval(fluctuateMarket, 15000); // Market fluctuation every 15 seconds
+  });
+</script>
